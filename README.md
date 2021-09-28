@@ -1,1 +1,2 @@
 # estore
+Django Project

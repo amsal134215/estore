@@ -1,0 +1,22 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "3.1.5"
+python-dotenv = "*"
+djangorestframework = "*"
+djangorestframework-simplejwt = "*"
+drf-yasg = "*"
+django-cors-headers = "*"
+sendgrid = "*"
+sentry-sdk = "*"
+django-model-utils = "*"
+
+[dev-packages]
+django_extensions = "*"
+Werkzeug = "*"
+
+[requires]
+python_version = "3.9"
