@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from api.models import Product, Coupon, ProductCoupon, CustomerSubscription
+
+admin.site.register(Product)
+admin.site.register(Coupon)
+admin.site.register(ProductCoupon)
+admin.site.register(CustomerSubscription)
