@@ -20,6 +20,7 @@ from django.urls import path
 from rest_framework.permissions import AllowAny
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from rest_framework.routers import DefaultRouter, Route, escape_curly_brackets
 
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -27,6 +28,30 @@ from rest_framework_simplejwt.views import (
     TokenVerifyView,
 )
 
+from api.views import CustomerSubscriptionViewset, CustomerSubscriptionCustomViewSet
+
+
+class HyphenatedRouter(DefaultRouter):
+    """Same as Default Router only switches _ with -"""
+
+    def _get_dynamic_route(self, route, action):
+        init_kwargs = route.initkwargs.copy()
+        init_kwargs.update(action.kwargs)
+
+        url_path = escape_curly_brackets(action.url_path)
+
+        return Route(
+            url=route.url.replace("{url_path}", url_path.replace("_", "-")),
+            mapping=action.mapping,
+            name=route.name.replace("{url_name}", action.url_name),
+            detail=route.detail,
+            initkwargs=init_kwargs,
+        )
+
+
+router = HyphenatedRouter()
+router.register("subscription", CustomerSubscriptionViewset, basename="subscription")
+router.register("subscription-edit", CustomerSubscriptionCustomViewSet, basename="subscription-edit")
 
 urlpatterns = [
 
@@ -36,22 +61,20 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
 
-]
-
+] + router.urls
 
 schema_view = get_schema_view(
-   openapi.Info(
-      title="ROSE API",
-      default_version='v1',
-      description="ROSE PANEL",
-      # terms_of_service="https://www.google.com/policies/terms/",
-      contact=openapi.Contact(email="amsal@we-over-i.com"),
-      # license=openapi.License(name="BSD License"),
-   ),
-   public=True,
-   permission_classes=(AllowAny,),
+    openapi.Info(
+        title="estore API",
+        default_version='v1',
+        description="estore PANEL",
+        # terms_of_service="https://www.google.com/policies/terms/",
+        contact=openapi.Contact(email="amsal@we-over-i.com"),
+        # license=openapi.License(name="BSD License"),
+    ),
+    public=True,
+    permission_classes=(AllowAny,),
 )
-
 
 urlpatterns.extend(
     [
