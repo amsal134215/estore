@@ -6,8 +6,7 @@ from api.models import CustomerSubscription
 
 class Customer(AbstractUser):
     subscription = models.OneToOneField(CustomerSubscription, null=True, blank=True,
-                                        on_delete=models.CASCADE,
-                                        related_name="customer")
+                                        on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = "Customer"

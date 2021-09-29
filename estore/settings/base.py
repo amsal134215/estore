@@ -145,4 +145,4 @@ STATIC_ROOT = 'static/'
 
 SENDGRID_API_KEY = SENDGRID_API_KEY
 
-# AUTH_USER_MODEL = "users.BaseUser"
+AUTH_USER_MODEL = "users.Customer"
